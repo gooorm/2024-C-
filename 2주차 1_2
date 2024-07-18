@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+class CoffeeMachine {
+private:
+	int coffee;
+	int water;
+	int sugar;
+public:
+	CoffeeMachine(int coffee, int water, int sugar);
+	void drinkEspresso();
+	void drinkAmericano();
+	void drinkSugarCoffee();
+	void fill();
+	void show();
+};
+
+CoffeeMachine::CoffeeMachine(int coffee, int water, int sugar) {
+	this->coffee = coffee;
+	this->water = water;
+	this->sugar = sugar;
+}
+void CoffeeMachine::drinkEspresso() {
+	coffee--;
+	water--;
+}
+void CoffeeMachine::drinkAmericano() {
+	coffee--;
+	water -= 2;
+}
+void CoffeeMachine::drinkSugarCoffee() {
+	coffee--;
+	water -= 2;
+	sugar--;
+}
+void CoffeeMachine::fill() {
+	coffee = 10;
+	water = 10;
+	sugar = 10;
+}
+void CoffeeMachine::show() {
+	cout << "커피 머신 상태,";
+	cout << " 커피 : " << coffee;
+	cout << " 물 : " << water;
+	cout << " 설탕 : " << sugar << '\n';
+}
+int main(void) {
+	CoffeeMachine java(7, 12, 5);
+	java.drinkEspresso();
+	java.show();
+	java.drinkAmericano();
+	java.show();
+	java.drinkSugarCoffee();
+	java.show();
+	java.fill();
+	java.show();
+}
