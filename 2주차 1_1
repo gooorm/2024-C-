@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+class YoutubeSize {
+private:
+	int width;
+	int height;
+public:
+	YoutubeSize();
+	YoutubeSize(int width, int hegiht);
+	void ResizeWindow(int width, int height);
+	void show();
+};
+YoutubeSize::YoutubeSize() {
+	width = 1;
+	height = 1;
+}
+YoutubeSize::YoutubeSize(int width, int height) {
+	this->width = width;
+	this->height = height;
+}
+void YoutubeSize::show() {
+	cout << width << " x " << height << '\n';
+}
+void YoutubeSize::ResizeWindow(int width, int height) {
+	this->width = width;
+	this->height = height;
+}
+int main(void) {
+	YoutubeSize mainWindow;
+
+	mainWindow.ResizeWindow(854, 480);
+	mainWindow.show();
+	mainWindow.ResizeWindow(1920, 1080);
+	mainWindow.show();
+	mainWindow.ResizeWindow(3840, 2160);
+	mainWindow.show();
+}
