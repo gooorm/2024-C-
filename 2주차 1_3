@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+class Random {
+private:
+	int num;
+public:
+	void next(int max);
+	void nextInRange(int min, int max);
+	void setNum(int num);
+};
+
+void Random::next(int max) {
+	srand(time(NULL));
+
+	cout << "0에서 " << max << "까지의 랜덤 정수 " << num << "개-\n";
+	for (int i = 0; i < num; i++) {
+		cout << rand() % (max + 1) << " ";
+	}
+	cout << "\n\n";
+}
+void Random::nextInRange(int min, int max) {
+	
+	cout << min << "에서 " << max << "까지의 랜덤 정수 " << num << "개-\n";
+	for (int i = 0; i < num; i++) {
+		cout << rand() % (max - min + 1) + min << " ";
+	}
+	cout << "\n\n";
+}
+void Random::setNum(int num) {
+	this->num = num;
+}
+int main(void) {
+	Random r;
+
+	r.setNum(15);
+	r.next(32767);
+	r.setNum(23);
+	r.nextInRange(20, 80);
+}
