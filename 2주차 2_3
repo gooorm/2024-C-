@@ -1,0 +1,47 @@
+#include <iostream>
+
+using namespace std;
+
+class Lecture {
+private:
+	string name;
+	int id;
+	string attendance;
+public:
+	Lecture(string name, int id, string attendance);
+	~Lecture();
+	void showInfo();
+};
+Lecture::Lecture(string name, int id, string attendance) {
+	this->name = name;
+	this->id = id;
+	this->attendance = attendance;
+	cout << name << " 출석 체크를 시작합니다." << endl;
+}
+Lecture::~Lecture() {
+	cout << name << " 출석 체크가 완료되었습니다." << endl;
+}
+void Lecture::showInfo() {
+	cout << "이름 : " << name << endl;
+	cout << "학번 : " << id << endl;
+	cout << "출결(출석, 지각, 결석) : " << attendance << endl;
+}
+int main(void) {
+	Lecture* s1 = new Lecture("김철수", 2022654321, "출석");
+	Lecture* s2 = new Lecture("이유리", 2022987956, "지각");
+	Lecture* s3 = new Lecture("이훈이", 2022456789, "결석");
+
+	cout << "\n--------------------" << endl;
+	s1->showInfo();
+	cout << endl;
+	s2->showInfo();
+	cout << endl;
+	s3->showInfo();
+	cout << "--------------------" << endl << endl;
+
+	delete s1;
+	delete s2;
+	delete s3;
+	
+	return 0;
+}
