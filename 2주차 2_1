@@ -1,0 +1,43 @@
+#include <iostream>
+#include "Time.h"
+using namespace std;
+
+Time::Time(int s, int m, int h) {
+	second = s;
+	minute = m;
+	hour = h;
+}
+Time::~Time() {}
+int Time::toSecond() {
+	int ret = second;
+	ret += hour * 3600;
+	ret += minute * 60;
+	return ret;
+}
+void Time::ShowTime() {
+	if (hour < 10)
+		cout << "0";
+	cout << hour << ":";
+	if (minute < 10)
+		cout << "0";
+	cout << minute << ":";
+	if (second < 10)
+		cout << "0";
+	cout << second << endl;
+}
+int main(void) {
+	int s, m, h;
+	Time* t;
+
+	cout << "시간을 입력해주세요:\n";
+	cout << "몇 시? "; cin >> h;
+	cout << "몇 분? "; cin >> m;
+	cout << "몇 초? "; cin >> s;
+	t = new Time(s, m, h);
+
+	cout << "입력한 시간 = ";
+	t->ShowTime();
+	cout << "시간을 초로 변환 = " << t->toSecond();
+
+	return 0;
+}
