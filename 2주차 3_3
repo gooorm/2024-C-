@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+#include "Sphere.h"
+using namespace std;
+Sphere::Sphere() {
+	radius = 0;
+	numbering = -1;
+}
+Sphere::Sphere(int numbering) {
+	this->numbering = numbering;
+	radius = 0;
+	cout << "구 객체 생성"<< numbering << endl;
+}
+void Sphere::setRadius(int radius) { this->radius = radius; }
+int Sphere::getNumbering() { return numbering; }
+int Sphere::getVolume() { return radius * radius * radius * 3.141592 * 4 / 3; }
+Sphere::~Sphere() {
+	//count--;
+	cout << "구 객체 소멸"<< numbering << endl;
+}
+int main(void) {
+	Sphere* s = new Sphere[5];
+	int radius;
+
+	for (int i = 0; i < 5; i++) {
+		new (s + i) Sphere(i + 1);
+	}
+	cout << endl;
+	for (int i = 0; i < 5; i++) {
+		cout << "구 " << s[i].getNumbering() << "의 반지름 >> ";
+		cin >> radius;
+		s[i].setRadius(radius);
+	}
+	cout << endl;
+	int up = 0, down = 0, standard = 765;
+	for (int i = 0; i < 5; i++) {
+		if (s[i].getVolume() == standard) {
+			up++; down++;
+		}
+		else if (s[i].getVolume() > standard) {
+			up++;
+		}
+		else
+			down++;
+	}
+	cout << "구의 부피가 " << standard << "cm3 이상인 큰 구는" << up << "개 입니다." << endl;
+	cout << "구의 부피가 " << standard << "cm3 이하인 작은 구는" << down << "개 입니다." << endl;
+	cout << endl;
+
+	delete[] s;
+}
