@@ -1,0 +1,16 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main(void) {
+	string sentence;
+
+	sentence = "Lorem Ipsum has been the industry's standard dumy text ever since the 1500s.";
+	
+	
+	cout << "원본 문자열:" << sentence << endl;
+	cout << "역순 문자열:";
+
+	for (int i = sentence.length() - 1; i >= 0; i--) {
+		cout << sentence.at(i);
+	}
+}
