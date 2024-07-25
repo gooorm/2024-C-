@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+class RandomEncryption {
+private:
+	int* arr;
+	int size;
+public:
+	RandomEncryption(int& size) {
+		this->size = size;
+		arr = new int[size];
+		srand(time(NULL));
+		for (int i = 0; i < size; i++) {
+			arr[i] = rand() % 100;
+		}
+	}
+	~RandomEncryption() {  }
+	void printArray() {
+		for (int i = 0; i < size; i++) {
+			cout << arr[i] << " ";
+		}
+	}
+	void bubbleSort() {
+		for (int i = 0; i < size - 1; i++) 
+			for (int j = 0; j < size - i - 1; j++) 
+				if (arr[j] > arr[j + 1]) {
+					int tmp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = tmp;
+				}		
+	}
+	int getSize() { return size; }
+	int getElement(int index) { return arr[index]; }
+};
+
+
+int main(void) {
+	int num = 10;
+	RandomEncryption* r = new RandomEncryption(num);
+
+	cout << "버블 정렬 : ";
+	r->printArray();
+	r->bubbleSort();
+	cout << "\n버블 정렬 : ";
+	r->printArray();
+
+	cout << "\n배열의 크기 : " << r->getSize() << endl;
+	cout << "배열에서 가장 큰 숫자 : " << r->getElement(r->getSize() - 1) << endl;
+
+	delete r;
+	return 0;
+}
