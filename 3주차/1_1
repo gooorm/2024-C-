@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+void changeNumber(int& x, int& y) {
+	int tmp = x;
+	x = y;
+	y = tmp;
+}
+int Reverse(int x) {
+	int tmp = 0;
+	for (; x > 0; x /= 10) {
+		tmp += x % 10;
+		tmp *= 10;
+	}
+	tmp /= 10;
+	return tmp;
+}
+int main(void) {
+	int min = 123456;
+	int cheol = 778899;
+
+	cout << "민수의 숫자 = " << min << endl;
+	cout << "철수의 숫자 = " << cheol << endl << endl;
+
+	changeNumber(min, cheol);
+
+	cout << "숫자를 서로 교환했습니다." << endl;
+	min = Reverse(min);
+	cheol = Reverse(cheol);
+	cout << "숫자를 거꾸로 변경했습니다." << endl << endl;
+
+	cout << "민수의 숫자 = " << min << endl;
+	cout << "철수의 숫자 = " << cheol << endl;
+
+	return 0;
+}
