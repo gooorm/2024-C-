@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+void RandomEncryption(string& s) {
+	srand(time(NULL));
+	for (int i = 0; i < s.length(); i++) {
+		if(isupper(s[i]))
+			s[i] = rand() % 26 + 'A';
+		if (islower(s[i]))
+			s[i] = rand() % 26 + 'a';
+	}
+}
+
+int main(void) {
+
+	string message = "Hello, Dongduk University. We have cotton.";
+
+	cout << "Original message: " << message << endl;
+	RandomEncryption(message);
+	cout << "Encrypted message: " << message << endl;
+
+	return 0;
+}
