@@ -1,0 +1,39 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+using namespace std;
+class Factory {
+	char* name;
+	int num;
+public:
+	Factory(const char* name, int num);
+	//Factory(const Factory& factory);
+	~Factory() { if (name) delete[] name; cout << "메모리 소멸" << endl; }
+	void show();
+	void changeName(const char* name);
+};
+Factory::Factory(const char* name, int num) {
+	this->num = num;
+	int nameLen = strlen(name);
+	this->name = new char[nameLen + 1];
+	strcpy(this->name, name);
+	cout << "메모리 할당♥" << endl;
+	
+}
+void Factory::show() {
+	cout << name << " " << num << "대 생산!!" << endl;
+}
+void Factory::changeName(const char* name) {
+	if (strlen(name) > strlen(this->name))
+		return;
+	strcpy(this->name, name);
+}
+int main(void) {
+	Factory samsung("SAMSUNG", 1);
+	Factory LG(samsung);
+
+	LG.changeName("LG");
+	samsung.show();
+
+	return 0;
+}
