@@ -1,0 +1,87 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+using namespace std;
+class Measure {
+	int shape;
+	int radius;
+	int height;
+	int width;
+public:
+	Measure();
+	void setShape(int shape) { this->shape = shape; }
+	void info();
+	void getAreaToVolume();
+};
+Measure::Measure() {
+	shape = 0;
+	radius = 0;
+	height = 0;
+	width = 0;
+}
+void Measure::info() {
+	cout << "면적 및 부피 계산기" << endl << endl;
+	cout << "1. 원의 면적" << endl;
+	cout << "2. 직사각형 면적" << endl;
+	cout << "3. 삼각형 면적" << endl;
+	cout << "4. 정사각형 면적" << endl;
+	cout << "5. 원뿔의 부피" << endl;
+	cout << "6. 구의 부피" << endl;
+	cout << "7. 실린더 부피" << endl << endl;
+}
+void Measure::getAreaToVolume() {
+	switch (shape) {
+	case 1:
+		cout << "반지름 입력: ";
+		cin >> radius;
+		cout << "원의 면적은 " << radius * radius * 3.141592 << endl;
+		break;
+	case 2:
+		cout << "직사각형의 변의 길이 입력(a, b): ";
+		cin >> width >> height;
+		cout << "직사각형의 면적은 " << width * height << endl;
+		break;
+	case 3:
+		cout << "삼각형의 변의 길이 입력(a, b): ";
+		cin >> width >> height;
+		cout << "삼각형의 면적은 " << width * height / 2 << endl;
+		break;
+	case 4:	
+		cout << "정사각형의 변의 길이 입력: ";
+		cin >> height;
+		cout << "정사각형의 면적은 " << height * height << endl;
+		break;
+	case 5:
+		cout << "반지름 입력: ";
+		cin >> radius;
+		cout << "높이 입력: ";
+		cin >> height;
+		cout << "원뿔의 부피는 " << radius * radius * 3.141592 * height / 3 << endl;
+		break;
+	case 6:
+		cout << "반지름 입력: ";
+		cin >> radius;
+		cout << "구의 부피는 " << radius * radius * radius * 3.141592 * 4 / 3 << endl;
+		break;
+	case 7:
+		cout << "반지름 입력: ";
+		cin >> radius;
+		cout << "높이 입력: ";
+		cin >> height;
+		cout << "실린더의 부피는 " << radius * radius * 3.141592 * height << endl;
+		break;
+	}
+}
+int main(void) {
+	Measure m;
+
+	m.info();
+	int shape;
+	cout << "입력: ";
+	cin >> shape;
+	m.setShape(shape);
+
+	m.getAreaToVolume();
+
+	return 0;
+}
