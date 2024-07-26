@@ -1,0 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+using namespace std;
+class Person {
+	int id;
+	double weight;
+	string name;
+public:
+	Person();
+	Person(int id, string name, double weight);	
+	void show();
+};
+Person::Person() {
+	this->id = 1;
+	this->name = "Alice";
+	this->weight = 74.9;
+}
+Person::Person(int id, string name = "Alice", double weight = 74.9) {
+	this->id = id;
+	this->name = name;
+	this->weight = weight;
+}
+void Person::show() {
+	cout << id << "번 " << weight << " " << name << endl;
+}
+int main(void) {
+	Person alice, bob(2, "Bob"), mallory(3, "Mallory", 99.5);
+	alice.show();
+	bob.show();
+	mallory.show();
+}
