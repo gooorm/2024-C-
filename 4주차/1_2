@@ -1,0 +1,62 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+using namespace std;
+int partition(int* arr, int low, int high, int choise) {
+    int pivot = arr[high]; // Choose the last element as the pivot
+    int i = low - 1;       // Index of smaller element
+    if(choise == 1)
+        for (int j = low; j <= high - 1; j++) {
+            // If current element is smaller than the pivot
+            if (arr[j] < pivot) {
+                i++; // Increment index of smaller element
+                swap(arr[i], arr[j]);
+            }
+        }
+    if(choise == 2)
+    for (int j = low; j <= high - 1; j++) {
+        // If current element is smaller than the pivot
+        if (arr[j] > pivot) {
+            i++; // Increment index of smaller element
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+// Quicksort function
+void quicksort(int* arr, int low, int high, int choise) {
+    if (low < high) {
+        // pi is partitioning index, arr[pi] is now at right place
+        int pi = partition(arr, low, high, choise);
+
+        // Recursively sort elements before partition and after partition
+        quicksort(arr, low, pi - 1, choise);
+        quicksort(arr, pi + 1, high, choise);
+    }
+}
+
+int main(void) {
+	int n = 1000;
+	int* numArr = new int[n];      
+    
+	ifstream fin("num.txt");
+	if (!fin) {
+		cout << "num.txt파일을 열 수 없습니다.";
+		return 0;
+	}
+    for (int i = 0; i < n; i++)
+        fin >> numArr[i] ;
+    cout << "1. 오름차순 정렬, 2. 내림차순 정렬: ";
+    int choise;
+    cin >> choise;
+    quicksort(numArr, 0, n - 1, choise);
+
+	for (int i = 0; i < n; i++) {
+        cout << numArr[i] << " ";
+		//fout << numArr[i] + " ";
+	}
+
+	delete[] numArr;
+}
