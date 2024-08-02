@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+class Car {
+private:	
+	int number;
+	string name;
+	int display;
+public:
+	static int numberOf_;
+	static int numberOf();
+	Car() {
+		number = 0;
+		name = "who";
+		display = 0;
+		numberOf_++;
+	}
+	~Car() {
+		numberOf_--;
+	}
+	static void setInfo(Car& c) {
+		cout << "차량 번호 입력: ";
+		cin >> c.number;
+		cout << "차량 이름 입력: ";
+		cin >> c.name;
+		cout << "표시(1 - 10): ";
+		cin >> c.display;
+		cout << endl;
+	}
+	static void show(Car& c) {
+		cout << "차량 번호: " << c.number << endl;
+		cout << "차량 이름: " << c.name << endl;
+		cout << "표시: " << c.display << endl << endl;
+	}
+};
+int Car::numberOf_ = 0;
+int Car::numberOf() {
+	return numberOf_;
+}
+
+int main(void) {
+	Car c;	
+	Car::setInfo(c);
+	Car::show(c);
+
+	Car m;
+	Car::setInfo(m);
+
+	Car::show(m);
+
+	cout << " 클래스에서 생성된 객체 수: " << Car::numberOf();
+
+	return 0;
+}
