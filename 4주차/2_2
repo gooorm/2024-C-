@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+class BaseMemory {
+protected: // 상속 수정
+	char* mem;
+protected:
+	BaseMemory(int size) { mem = new char[size]; }
+};
+
+class ROM : BaseMemory{
+	int address;
+	char* rom;
+public:
+	ROM(int size) : BaseMemory(size){
+		rom = mem;
+		for (int i = 0; i < size; i++) { // burn;
+			cin >> rom[i];
+		}
+	}
+	char getRom(int n) { return rom[n]; }
+};
+class RAM : BaseMemory {
+	char* ram;
+public:
+	RAM(int size) : BaseMemory(size){
+		ram = new char[size];
+	}
+	void setRam(int n, char c) {
+		ram[n] = c;
+	}
+	char getMemory(int i) {
+		return ram[i];
+	}
+};
+int main(void) {
+	int size = 7;
+	ROM rom(size);
+	RAM ram(size);
+	for (int i = 0; i < size; i++) {
+		ram.setRam(i, rom.getRom(i));
+	}
+	for (int i = 0; i < size; i++) {
+		cout << ram.getMemory(i);
+	}
+
+	return 0;
+}
