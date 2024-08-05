@@ -1,85 +1,80 @@
+/* 3_2.cpp */
 #include <iostream>
+#include "Print.h"
+#include "InkJet.h"
+#include "Laser.h"
 using namespace std;
-class Print {
-	string model;
-	string manufacturer;
-	int printedCount;
-	int availableCount;
-public:
-	static int number;
-	Print(string model, string manufacturer, int availableCount) {
-		this->model = model;
-		this->manufacturer = manufacturer;
-		this->printedCount = 0;
-		this->availableCount = availableCount;
-		number++;
+
+//Print
+Print::Print(string model, string manufacturer, int availableCount) {
+	this->model = model;
+	this->manufacturer = manufacturer;
+	this->printedCount = 0;
+	this->availableCount = availableCount;
+	number++;
+}
+void Print::print(int pages) {
+	printedCount += pages;
+	availableCount -= pages;
+	cout << "프린트 하였습니다." << endl;
+}
+bool Print::isAvailable(int pages) {
+	if (availableCount - pages < 0) {
+		cout << "용지가 부족하여 프린트 할 수 없습니다." << endl;
+		return false;
 	}
-	void print(int pages) {	
-		printedCount += pages;
-		availableCount -= pages;
-		cout << "프린트 하였습니다." << endl;
+}
+void Print::show() {
+	cout << model << "\t," << manufacturer << "\t," << "남은 종이 " << availableCount << "장";
+}
+int Print::getNum() { return number; }
+
+
+//InkJet
+InkJet::InkJet(string model, string manufacturer, int availableCount, int availableInk) :
+	Print(model, manufacturer, availableCount) {
+	this->availableInk = availableInk;
+}
+void InkJet::printInkJet(int pages) {
+	if (isAvailable(pages)) {
+		availableInk -= pages;
+		Print::print(pages);
 	}
-	virtual bool isAvailable(int pages) {
-		if (availableCount - pages < 0) {
-			cout << "용지가 부족하여 프린트 할 수 없습니다." << endl;
-			return false;
-		}
+}
+bool InkJet::isAvailable(int pages) {
+	if (availableInk - pages < 0) {
+		cout << "잉크가 부족하여 프린트 할 수 없습니다." << endl;
+		return false;
 	}
-	virtual void show() {
-		cout << model << "\t," << manufacturer << "\t," << "남은 종이 " << availableCount << "장";
+	return Print::isAvailable(pages);
+}
+void InkJet::show() {
+	Print::show();
+	cout << "\t,남은 잉크 " << availableInk << endl;
+}
+Laser::Laser(string model, string manufacturer, int availableCount, int availableToner) :
+	Print(model, manufacturer, availableCount) {
+	this->availableToner = availableToner;
+}
+void Laser::printLaser(int pages) {
+	if (isAvailable(pages)) {
+		availableToner -= pages;
+		Print::print(pages);
 	}
-	static int getNum() { return number; }
-};
-class InkJet : public Print{
-	int availableInk;
-public:
-	InkJet(string model, string manufacturer, int availableCount, int availableInk) :
-		Print(model, manufacturer, availableCount) {
-		this->availableInk = availableInk;
+}
+bool Laser::isAvailable(int pages) {
+	if (availableToner - pages < 0) {
+		cout << "토너가 부족하여 프린트 할 수 없습니다." << endl;
+		return false;
 	}
-	void printInkJet(int pages) { 
-		if (isAvailable(pages)) {
-			availableInk -= pages;
-			Print::print(pages);			
-		}
-	}
-	bool isAvailable(int pages) override {
-		if (availableInk - pages < 0) {
-			cout << "잉크가 부족하여 프린트 할 수 없습니다." << endl;
-			return false;
-		}
-		return Print::isAvailable(pages);
-	}
-	void show() override {
-		Print::show();
-		cout << "\t,남은 잉크 " << availableInk << endl;
-	}
-};
-class Laser : public Print{
-	int availableToner;
-public:
-	Laser(string model, string manufacturer, int availableCount, int availableToner):
-		Print(model, manufacturer, availableCount) {
-		this->availableToner = availableToner;
-	}
-	void printLaser(int pages) {			
-		if (isAvailable(pages)) {
-			availableToner -= pages;
-			Print::print(pages);
-		}
-	}
-	bool isAvailable(int pages) override {
-		if (availableToner - pages < 0) {
-			cout << "토너가 부족하여 프린트 할 수 없습니다." << endl;
-			return false;
-		}
-		return Print::isAvailable(pages);
-	}
-	void show() override {
-		Print::show();
-		cout << "\t,남은 토너 " << availableToner << endl;
-	}
-};
+	return Print::isAvailable(pages);
+}
+void Laser::show(){
+	Print::show();
+	cout << "\t,남은 토너 " << availableToner << endl;
+}
+
+
 int Print::number = 0;
 int main(void) {
 	InkJet* i = new InkJet("Officejet V40", "Hp", 5, 10);
@@ -110,3 +105,54 @@ int main(void) {
 	} while (choise == 'y');
 
 }
+
+/* Print.h */
+#ifndef PRINT_H
+#define PRINT_H
+#include<iostream>
+using namespace std;
+class Print {
+	string model;
+	string manufacturer;
+	int printedCount;
+	int availableCount;
+public:
+	static int number;
+	Print(string model, string manufacturer, int availableCount);
+	void print(int pages);
+	virtual bool isAvailable(int pages);
+	virtual void show();
+	static int getNum();
+};
+#endif
+
+/* InkJet.h */
+#ifndef INKJET_H
+#define INKJET_H
+
+#include "Print.h"
+
+class InkJet : public Print {
+	int availableInk;
+public:
+	InkJet(string model, string manufacturer, int availableCount, int availableInk);
+	void printInkJet(int pages);
+	bool isAvailable(int pages) override;
+	void show() override;
+};
+#endif
+
+/* Laser.h*/
+#ifndef LASER_H
+#define LASER_H
+#include "Print.h"
+
+class Laser : public Print {
+	int availableToner;
+public:
+	Laser(string model, string manufacturer, int availableCount, int availableToner);
+	void printLaser(int pages);
+	bool isAvailable(int pages) override;
+	void show() override;
+};
+#endif
