@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+class Print {
+	string model;
+	string manufacturer;
+	int printedCount;
+	int availableCount;
+public:
+	static int number;
+	Print(string model, string manufacturer, int availableCount) {
+		this->model = model;
+		this->manufacturer = manufacturer;
+		this->printedCount = 0;
+		this->availableCount = availableCount;
+		number++;
+	}
+	void print(int pages) {	
+		printedCount += pages;
+		availableCount -= pages;
+		cout << "프린트 하였습니다." << endl;
+	}
+	virtual bool isAvailable(int pages) {
+		if (availableCount - pages < 0) {
+			cout << "용지가 부족하여 프린트 할 수 없습니다." << endl;
+			return false;
+		}
+	}
+	virtual void show() {
+		cout << model << "\t," << manufacturer << "\t," << "남은 종이 " << availableCount << "장";
+	}
+	static int getNum() { return number; }
+};
+class InkJet : public Print{
+	int availableInk;
+public:
+	InkJet(string model, string manufacturer, int availableCount, int availableInk) :
+		Print(model, manufacturer, availableCount) {
+		this->availableInk = availableInk;
+	}
+	void printInkJet(int pages) { 
+		if (isAvailable(pages)) {
+			availableInk -= pages;
+			Print::print(pages);			
+		}
+	}
+	bool isAvailable(int pages) override {
+		if (availableInk - pages < 0) {
+			cout << "잉크가 부족하여 프린트 할 수 없습니다." << endl;
+			return false;
+		}
+		return Print::isAvailable(pages);
+	}
+	void show() override {
+		Print::show();
+		cout << "\t,남은 잉크 " << availableInk << endl;
+	}
+};
+class Laser : public Print{
+	int availableToner;
+public:
+	Laser(string model, string manufacturer, int availableCount, int availableToner):
+		Print(model, manufacturer, availableCount) {
+		this->availableToner = availableToner;
+	}
+	void printLaser(int pages) {			
+		if (isAvailable(pages)) {
+			availableToner -= pages;
+			Print::print(pages);
+		}
+	}
+	bool isAvailable(int pages) override {
+		if (availableToner - pages < 0) {
+			cout << "토너가 부족하여 프린트 할 수 없습니다." << endl;
+			return false;
+		}
+		return Print::isAvailable(pages);
+	}
+	void show() override {
+		Print::show();
+		cout << "\t,남은 토너 " << availableToner << endl;
+	}
+};
+int Print::number = 0;
+int main(void) {
+	InkJet* i = new InkJet("Officejet V40", "Hp", 5, 10);
+	Laser* l = new Laser("SCX-6x45", "삼성전자", 3, 20);
+
+	int printer, pages;
+	char choise;
+	cout << "현재 작동중인 " << Print::getNum() << " 대의 프린터는 아래와 같다" << endl;
+	cout << "잉크젯 : "; i->show();
+	cout << "레이저 : "; l->show();
+
+	do {
+		cout << endl << "프린터(1:잉크젯, 2:레이저)와 매수 입력>>";
+		cin >> printer >> pages;
+		if (printer == 1) {
+			i->printInkJet(pages);
+		}
+		else if(printer == 2) {
+			l->printLaser(pages);
+		}
+		else {
+			cout << "잘못된 입력입니다.";
+		}
+		cout << "잉크젯 : "; i->show();
+		cout << "레이저 : "; l->show();
+		cout << "계속 프린트 하시겠습니까(y/n)>>";
+		cin >> choise;
+	} while (choise == 'y');
+
+}
