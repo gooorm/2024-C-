@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+class UI;
+class GraphicEditor {
+protected:
+	string name;
+public:
+	virtual string getName() { return name; }
+	static void editor(vector<GraphicEditor*>& g, int n);
+};
+class Line : public GraphicEditor{
+public:
+	Line() { name = "Line"; }
+};
+class Circle : public GraphicEditor {
+public:
+	Circle() { name = "Circle"; }
+};
+class Rect : public GraphicEditor {
+public:
+	Rect() { name = "Rectangle"; }
+};
+class UI { // has only static member
+public:
+	static void show(vector<GraphicEditor*>& g) {
+		for (int i = 0; i < g.size(); i++) {
+			cout << i << ": " << g[i]->getName() << endl;
+		}
+	}
+	static void newGraphic(vector<GraphicEditor*>& g, int n) {
+		switch (n) {
+		case 1:
+			g.push_back(new Line());
+			break;
+		case 2:
+			g.push_back(new Circle());
+			break;
+		case 3:
+			g.push_back(new Rect());
+			break;
+		}
+	}
+	static void deleteGraphic(vector<GraphicEditor*>& g, int index) {
+		g.erase(g.begin() + index);
+	}
+};
+void GraphicEditor::editor(vector<GraphicEditor*>& g, int n) {
+	switch (n) {
+	case 1:
+		int shape;
+		cout << "선:1, 원:2, 사각형:3 >>";
+		cin >> shape;
+		UI::newGraphic(g, shape);
+		break;
+	case 2:
+		int index;
+		cout << "삭제하고자 하는 도형의 인덱스 >>";
+		cin >> index;
+		UI::deleteGraphic(g, index);
+		break;
+	case 3:
+		UI::show(g);
+		break;
+	case 4:
+		return;
+	}
+}
+int main(void) {
+	vector<GraphicEditor*> g;
+	int n;
+	cout << "그래픽 에디터입니다." << endl;
+	do {
+		cout << "삽입:1, 삭제:2, 모두보기:3, 종료:4 >> ";
+		cin >> n;
+		if (n < 1 || n > 4) {
+			cout << "잘못된 입력입니다.";
+			continue;
+		}
+		GraphicEditor::editor(g, n);
+	} while (n != 4);
+}
